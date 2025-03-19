@@ -1,0 +1,11 @@
+{% extends 'email_sending/base.html' %}
+{% block title %}Информация о продукте{% endblock %}
+{% block content %}
+<body>
+    <h1> Информация о клиенте</h1>
+    <p>Имя: {{ recipient.full_name }}</p>
+    <p>Описание: {{ recipient.comments }}</p>
+
+</body>
+
+{% endblock %}
