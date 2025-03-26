@@ -17,23 +17,24 @@ class StyleFormMixin:
 class EmailManagementForm(StyleFormMixin, ModelForm):
     class Meta:
         model = EmailManagement
-        fields = '__all__'
+        fields = "__all__"
 
         def init(self, *args, **kwargs):
             self.user = kwargs.pop("user", None)  # Получаем текущего получателя
             super().init(*args, **kwargs)
+
 
 class EmailRecipientForm(StyleFormMixin, ModelForm):
     class Meta:
         model = EmailRecipient
-        fields = '__all__'
+        fields = "__all__"
+
 
 class SendingForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Sending
-        fields = '__all__'
+        fields = "__all__"
 
         def init(self, *args, **kwargs):
             self.user = kwargs.pop("user", None)  # Получаем текущего получателя
             super().init(*args, **kwargs)
-
