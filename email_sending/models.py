@@ -38,7 +38,7 @@ class Sending(models.Model):
         ("started", "Запущена"),
         ("ended", "Завершена"),
     ]
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     datetime_start = models.DateTimeField(
         auto_now_add=True, blank=True, verbose_name="Дата и время начало отправки"
     )
@@ -60,6 +60,11 @@ class Sending(models.Model):
         verbose_name = "рассылка"
         verbose_name_plural = "рассылки"
         ordering = ["message"]
+        permissions = [
+            ("can_unpublish_sending", "Can unpublish sending"),
+            ("can_delete_sending", "Can delete sending"),
+            ("view_all_sending", "View all sendings"),
+        ]
 
 
 class EmailingTry(models.Model):

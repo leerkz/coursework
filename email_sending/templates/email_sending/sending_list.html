@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ sending.message.topic }}</h5>
                     <p class="card-text">Статус: {{ sending.status }}</p>
-                    <p class="card-text">Получателей: {{ sending.recipients.count }}</p>
+                    <p class="card-text">Получателей: {{ sending.recipients.all|length }}</p>
 
                     <a href="{% url 'email_sending:send_mailing' sending.pk %}" class="btn btn-success">
                         Отправить
