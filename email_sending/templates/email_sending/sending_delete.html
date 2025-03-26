@@ -1,9 +1,9 @@
 {% extends 'email_sending/base.html' %}
-{% block title %}Удаление письма{% endblock %}
+{% block title %}Удаление рассылки{% endblock %}
 {% block content %}
 <div class="container mt-4">
-    <h2 class="text-center">Удаление письма</h2>
-    <p class="text-center">Вы уверены, что хотите удалить письмо <strong>{{ object.topic }}</strong>?</p>
+    <h2 class="text-center">Удаление рассылки</h2>
+    <p class="text-center">Вы уверены, что хотите удалить рассылку <strong>{{ object.message.topic }}</strong>?</p>
     <div class="text-center">
         <form method="post">
             {% csrf_token %}

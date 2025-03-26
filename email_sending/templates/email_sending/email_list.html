@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'email_sending/base.html' %}
+{% block title %}Список писем{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Список писем</h2>
+    <div class="row">
+        {% for email in object_list %}
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ email.topic }}</h5>
+                    <a href="{% url 'email_sending:email_detail' email.pk %}" class="btn btn-info">Подробнее</a>
+                    <a href="{% url 'email_sending:email_update' email.pk %}" class="btn btn-primary">Редактировать</a>
+                    <a href="{% url 'email_sending:email_delete' email.pk %}" class="btn btn-danger">Удалить</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">Список писем пуст.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

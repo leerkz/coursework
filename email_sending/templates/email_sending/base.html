@@ -8,11 +8,57 @@
 </head>
 <body class="bg-light">
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">SkyStore</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'email_sending:recipient_list' %}">Получатели</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'email_sending:email_list' %}">Письма</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'email_sending:sending_list' %}">Рассылки</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <form method="post" action="{% url 'users:logout' %}" style="display: inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link nav-link">Выйти</button>
+                    </form>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:login' %}">Войти</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:register' %}">Регистрация</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <div class="container my-5">
     {% include 'email_sending/header.html' %}
     {% block content %}{% endblock %}
+
+    <!-- Кнопка будет отображаться только на главной странице -->
+    {% if request.path == '/' %}
+    <div class="text-center mt-4">
+        <a href="{% url 'email_sending:mailing_attempt_list' %}" class="btn btn-primary">Перейти попыткам рассылок</a>
+    </div>
+    {% endif %}
 </div>
 
 <footer class="bg-dark text-white py-4 mt-auto">

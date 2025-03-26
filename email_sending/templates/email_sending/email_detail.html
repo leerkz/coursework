@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends 'email_sending/base.html' %}
+{% block title %}Информация о письме{% endblock %}
+{% block content %}
 <body>
+    <h1> Информация о письме</h1>
+    <p>Тема письма: {{ email.topic }}</p>
+    <p>Тело письма: {{ email.body }}</p>
 
 </body>
-</html>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'email_sending/base.html' %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Вход</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_username">Email</label>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <label for="id_password">Пароль</label>
+            {{ form.password }}
+        </div>
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,4 +1,7 @@
 from django.db import models
+from django.template.defaulttags import now
+
+from users.models import CustomUser
 
 
 # Create your models here.
@@ -35,6 +38,7 @@ class Sending(models.Model):
         ("started", "Запущена"),
         ("ended", "Завершена"),
     ]
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     datetime_start = models.DateTimeField(
         auto_now_add=True, blank=True, verbose_name="Дата и время начало отправки"
     )
@@ -80,3 +84,19 @@ class EmailingTry(models.Model):
 
     def __str__(self):
         return f"Попытка рассылки {self.id}"
+
+
+class MailingAttempt(models.Model):
+    STATUS_CHOICES = [
+        ('success', 'Успешно'),  # Теперь gettext_lazy импортирован
+        ('failed', 'Неуспешно'),
+    ]
+
+    recipient = models.ForeignKey(EmailRecipient, on_delete=models.CASCADE)
+    email_management = models.ForeignKey(EmailManagement, on_delete=models.CASCADE)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+    response = models.TextField(blank=True, null=True)
+    timestamp = models.DateTimeField(default=now)
+
+    def __str__(self):
+        return f'{self.recipient} - {self.status} - {self.timestamp}'
