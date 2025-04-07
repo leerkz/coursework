@@ -13,7 +13,11 @@ from email_sending.views import (
     SendingCreateView,
     SendingDetailView,
     SendingUpdateView,
-    SendingDeleteView, EmailRecipientListView, EmailManagementListView, SendingListView, SendMailingView,
+    SendingDeleteView,
+    EmailRecipientListView,
+    EmailManagementListView,
+    SendingListView,
+    SendMailingView,
     MailingAttemptListView,
 )
 
@@ -58,9 +62,9 @@ urlpatterns = [
     path(
         "sending/<int:pk>/delete/", SendingDeleteView.as_view(), name="sending_delete"
     ),
-    path('recipients/', EmailRecipientListView.as_view(), name='recipient_list'),
-    path('emails/', EmailManagementListView.as_view(), name='email_list'),
-    path('sending_list/', SendingListView.as_view(), name='sending_list'),
-    path('send_mailing/<int:pk>/', SendMailingView.as_view(), name='send_mailing'),
-    path('attempts/', MailingAttemptListView.as_view(), name='mailing_attempt_list'),
+    path("recipients/", EmailRecipientListView.as_view(), name="recipient_list"),
+    path("emails/", EmailManagementListView.as_view(), name="email_list"),
+    path("sending_list/", SendingListView.as_view(), name="sending_list"),
+    path("send_mailing/<int:pk>/", SendMailingView.as_view(), name="send_mailing"),
+    path("attempts/", MailingAttemptListView.as_view(), name="mailing_attempt_list"),
 ]

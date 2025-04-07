@@ -5,12 +5,13 @@ from django.contrib.contenttypes.models import ContentType
 from users.models import CustomUser
 from email_sending.models import Sending, EmailRecipient
 
+
 @receiver(post_migrate)
 def create_roles(sender, **kwargs):
-    if sender.name == 'users':  # Проверяем, что миграция выполняется в users
+    if sender.name == "users":  # Проверяем, что миграция выполняется в users
         # Создаём группы
-        user_group, created = Group.objects.get_or_create(name='Пользователь')
-        manager_group, created = Group.objects.get_or_create(name='Менеджер')
+        user_group, created = Group.objects.get_or_create(name="Пользователь")
+        manager_group, created = Group.objects.get_or_create(name="Менеджер")
 
         # Получаем модели, для которых нужны разрешения
         sending_ct = ContentType.objects.get_for_model(Sending)
@@ -20,7 +21,12 @@ def create_roles(sender, **kwargs):
         # Разрешения для Пользователя
         user_permissions = Permission.objects.filter(
             content_type__in=[sending_ct, recipient_ct],
-            codename__in=["add_sending", "change_sending", "delete_sending", "view_sending"]
+            codename__in=[
+                "add_sending",
+                "change_sending",
+                "delete_sending",
+                "view_sending",
+            ],
         )
         user_group.permissions.set(user_permissions)
 

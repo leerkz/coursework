@@ -13,8 +13,17 @@ from django.views.generic import (
     DeleteView,
     TemplateView,
 )
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
-from email_sending.models import EmailRecipient, EmailManagement, Sending, MailingAttempt
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    UserPassesTestMixin,
+)
+from email_sending.models import (
+    EmailRecipient,
+    EmailManagement,
+    Sending,
+    MailingAttempt,
+)
 from users.models import CustomUser
 
 
@@ -28,7 +37,9 @@ class HomePageView(LoginRequiredMixin, ListView):
         cached_data = cache.get("home_recipients")
         if not cached_data:
             cached_data = EmailRecipient.objects.all()
-            cache.set("home_recipients", cached_data, timeout=60 * 5)  # Кешируем на 5 минут
+            cache.set(
+                "home_recipients", cached_data, timeout=60 * 5
+            )  # Кешируем на 5 минут
         return cached_data
 
 
@@ -51,7 +62,9 @@ class EmailRecipientDetailView(LoginRequiredMixin, DetailView):
 
         if not cached_recipient:
             cached_recipient = super().get_object(queryset)
-            cache.set(f"recipient_{recipient_id}", cached_recipient, timeout=60 * 10)  # Кешируем на 10 минут
+            cache.set(
+                f"recipient_{recipient_id}", cached_recipient, timeout=60 * 10
+            )  # Кешируем на 10 минут
 
         return cached_recipient
 
@@ -97,7 +110,7 @@ class EmailManagementUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateV
     fields = ["topic"]
 
     def get_success_url(self):
-        return reverse('email_sending:email_detail', kwargs={'pk': self.object.pk})
+        return reverse("email_sending:email_detail", kwargs={"pk": self.object.pk})
 
     def test_func(self):
         email = self.get_object()
@@ -187,6 +200,7 @@ class SendingListView(LoginRequiredMixin, ListView):
 
         return cached_sendings
 
+
 # Контроллер для отправки рассылки
 class SendMailingView(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = "email_sending.can_send_newsletter"
@@ -211,14 +225,16 @@ class SendMailingView(LoginRequiredMixin, PermissionRequiredMixin, View):
                 recipient_list=recipient_list,
                 fail_silently=False,
             )
-            sending.status = 'ended'
+            sending.status = "ended"
             sending.save()
-            cache.delete(f"sending_list_{request.user.id}")  # Очистка кеша списка рассылок
-            messages.success(request, 'Рассылка успешно отправлена!')
+            cache.delete(
+                f"sending_list_{request.user.id}"
+            )  # Очистка кеша списка рассылок
+            messages.success(request, "Рассылка успешно отправлена!")
         else:
-            messages.error(request, 'Нет доступных получателей.')
+            messages.error(request, "Нет доступных получателей.")
 
-        return redirect(reverse_lazy('email_sending:sending_list'))
+        return redirect(reverse_lazy("email_sending:sending_list"))
 
 
 # Контроллер для попыток отправки
@@ -234,7 +250,9 @@ class BlockUserView(LoginRequiredMixin, UserPassesTestMixin, View):
     permission_required = "email_sending.can_block_user"
 
     def test_func(self):
-        return self.request.user.is_staff or self.request.user.has_perm("email_sending.can_block_user")
+        return self.request.user.is_staff or self.request.user.has_perm(
+            "email_sending.can_block_user"
+        )
 
     def post(self, request, *args, **kwargs):
         user = get_object_or_404(CustomUser, pk=kwargs.get("pk"))

@@ -1,17 +1,15 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 
+
 class CustomUser(AbstractUser):
     ROLE_CHOICES = [
-        ('user', 'Пользователь'),
-        ('manager', 'Менеджер'),
+        ("user", "Пользователь"),
+        ("manager", "Менеджер"),
     ]
 
     role = models.CharField(
-        max_length=10,
-        choices=ROLE_CHOICES,
-        default='user',
-        verbose_name="Роль"
+        max_length=10, choices=ROLE_CHOICES, default="user", verbose_name="Роль"
     )
 
     email = models.EmailField(unique=True)
@@ -20,7 +18,9 @@ class CustomUser(AbstractUser):
     country = models.CharField(max_length=15, blank=True, null=True)
 
     groups = models.ManyToManyField(Group, related_name="customuser_groups", blank=True)
-    user_permissions = models.ManyToManyField(Permission, related_name="customuser_permissions", blank=True)
+    user_permissions = models.ManyToManyField(
+        Permission, related_name="customuser_permissions", blank=True
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]

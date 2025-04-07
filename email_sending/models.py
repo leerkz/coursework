@@ -93,8 +93,8 @@ class EmailingTry(models.Model):
 
 class MailingAttempt(models.Model):
     STATUS_CHOICES = [
-        ('success', 'Успешно'),  # Теперь gettext_lazy импортирован
-        ('failed', 'Неуспешно'),
+        ("success", "Успешно"),  # Теперь gettext_lazy импортирован
+        ("failed", "Неуспешно"),
     ]
 
     recipient = models.ForeignKey(EmailRecipient, on_delete=models.CASCADE)
@@ -104,4 +104,4 @@ class MailingAttempt(models.Model):
     timestamp = models.DateTimeField(default=now)
 
     def __str__(self):
-        return f'{self.recipient} - {self.status} - {self.timestamp}'
+        return f"{self.recipient} - {self.status} - {self.timestamp}"

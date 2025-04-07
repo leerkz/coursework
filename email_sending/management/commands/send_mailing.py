@@ -29,19 +29,23 @@ class Command(BaseCommand):
                     MailingAttempt.objects.create(
                         recipient=recipient,
                         email_management=email,
-                        status='success',
-                        response='Email sent successfully',
-                        timestamp=now()
+                        status="success",
+                        response="Email sent successfully",
+                        timestamp=now(),
                     )
-                    self.stdout.write(self.style.SUCCESS(f'Successfully sent to {recipient.email}'))
+                    self.stdout.write(
+                        self.style.SUCCESS(f"Successfully sent to {recipient.email}")
+                    )
 
                 except Exception as e:
                     # Логируем неуспешную попытку
                     MailingAttempt.objects.create(
                         recipient=recipient,
                         email_management=email,
-                        status='failed',
+                        status="failed",
                         response=str(e),
-                        timestamp=now()
+                        timestamp=now(),
                     )
-                    self.stdout.write(self.style.ERROR(f'Failed to send to {recipient.email}: {e}'))
+                    self.stdout.write(
+                        self.style.ERROR(f"Failed to send to {recipient.email}: {e}")
+                    )
