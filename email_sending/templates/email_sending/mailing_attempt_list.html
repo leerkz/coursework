@@ -1,0 +1,42 @@
+{% extends 'email_sending/base.html' %}
+
+{% block title %}Попытки рассылок{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Попытки рассылок</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Получатель</th>
+                <th>Тема</th>
+                <th>Статус</th>
+                <th>Ответ сервера</th>
+                <th>Дата и время</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attempt in attempts %}
+            <tr>
+                <td>{{ attempt.recipient.email }}</td>
+                <td>{{ attempt.email_management.topic }}</td>
+                <td>
+                    {% if attempt.status == 'success' %}
+                        <span class="badge bg-success">Успешно</span>
+                    {% else %}
+                        <span class="badge bg-danger">Неуспешно</span>
+                    {% endif %}
+                </td>
+                <td>{{ attempt.response }}</td>
+                <td>{{ attempt.timestamp|date:"Y-m-d H:i:s" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Нет данных о попытках рассылок.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

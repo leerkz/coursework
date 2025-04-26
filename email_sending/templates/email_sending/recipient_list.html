@@ -1,0 +1,26 @@
+{% extends 'email_sending/base.html' %}
+{% block title %}Список клиентов{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Список клиентов</h2>
+    <div class="row">
+        {% for recipient in object_list %}
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ recipient.full_name }}</h5>
+                    <p class="card-text"><strong>Email:</strong> {{ recipient.email }}</p>
+                    <p class="card-text"><strong>Комментарий:</strong> {{ recipient.comment }}</p>
+                    {% if perms.email_sending.delete_emailrecipient %}
+                    <a href="{% url 'email_sending:recipient_delete' recipient.pk %}" class="btn btn-danger">Удалить</a>
+                    {% endif %}
+                    <a href="{% url 'email_sending:recipient_detail' recipient.pk %}" class="btn btn-info">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">Список клиентов пуст.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

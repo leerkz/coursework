@@ -1,0 +1,11 @@
+{% extends 'email_sending/base.html' %}
+{% block title %}Информация о рассылке{% endblock %}
+{% block content %}
+<body>
+    <h1> Информация о рассылке</h1>
+    <p>Тема письма: {{ sending.message }}</p>
+    <p>Тело письма: {{ sending.recipients }}</p>
+
+</body>
+
+{% endblock %}

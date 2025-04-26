@@ -1,0 +1,26 @@
+{% extends "email_sending/base.html" %}
+{% block title %}Список рассылок{% endblock %}
+
+{% block content %}
+<h1>Список рассылок</h1>
+
+<div class="container mt-4">
+    <div class="row">
+        {% for sending in sending_list %}
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <h5 class="card-title">{{ sending.message.topic }}</h5>
+                    <p class="card-text">Статус: {{ sending.status }}</p>
+                    <p class="card-text">Получателей: {{ sending.recipients.all|length }}</p>
+
+                    <a href="{% url 'email_sending:send_mailing' sending.pk %}" class="btn btn-success">
+                        Отправить
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
